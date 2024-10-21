@@ -22,3 +22,10 @@ class ItemFullExport(BaseModel):
     stickers = Column(String)
     type = Column(String)
     chance_to_transfer = Column(Float)
+
+
+class Sticker(BaseModel):
+    __tablename__ = 'sticker'
+    
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
