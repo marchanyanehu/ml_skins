@@ -1,0 +1,14 @@
+httpx
+sqlalchemy
+alembic
+psycopg2-binary
+python-dotenv
+asyncio
+websockets
+pandas
+scikit-learn
+xgboost
+numpy
+matplotlib
+fastapi[all]
+cachetools
