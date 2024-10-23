@@ -61,3 +61,9 @@ class BaseService(InterfaceService):
         with get_db() as db:
             db.query(self.model).filter_by(id=item_id).update(update_data)
             db.commit()
+
+    def bulk_add_items(self, items: List[Dict[str, Any]]) -> None:
+        with get_db() as db:
+            db_items = [self.model(**item) for item in items]
+            db.bulk_save_objects(db_items)
+            db.commit()
