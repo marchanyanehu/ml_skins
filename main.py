@@ -2,7 +2,9 @@ from etl.pipelines.tm_item_pipeline import ItemPipeline
 from etl.pipelines.simple_item_pipeline import SimpleItemPipeline
 from etl.pipelines.sticker_pipeline import StickerPipeline
 from etl.pipelines.meta_item_pipeline import MetaItemPipeline
-
+from utils.misc.export_as_csv import export_as_csv
+from database.get_connection import get_db
+from models.db_models import SimpleItem, ItemFullExport, Sticker, MetaItem
 async def run_etl():
     field_mappings = {
         'price': 'price',
@@ -39,7 +41,7 @@ async def run_simple_item_etl():
 async def run_sticker_etl():
     field_mappings = {
         'id': 'id',
-        'name': 'name',
+        'name': 'market_hash_name',
     }
     pipeline = StickerPipeline(field_mappings)
     await pipeline.run()
@@ -54,6 +56,15 @@ async def run_meta_item_etl():
     pipeline = MetaItemPipeline(field_mappings)
     await pipeline.run()
 
+
+def export_tables():
+
+    with get_db() as session:
+        export_as_csv(Sticker, session)
+        export_as_csv(MetaItem, session)
+        export_as_csv(SimpleItem, session)
+        export_as_csv(ItemFullExport, session)
+
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(run_meta_item_etl())
+    export_tables()
+

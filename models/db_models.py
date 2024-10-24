@@ -29,7 +29,7 @@ class Sticker(BaseModel):
     __tablename__ = 'sticker'
     
     id = Column(BigInteger, primary_key=True)
-    name = Column(String)
+    market_hash_name = Column(String)
     avg_price = Column(Float)
 
 
