@@ -57,9 +57,9 @@ class BaseService(InterfaceService):
             query = self._query_builder(db, filters=filters, sort_by=sort_by, sort_order=sort_order, limit=limit)
             return query.all()
 
-    def update_item(self, item_id: int, update_data: Dict[str, Any]) -> None:
+    def update_item(self, item: T) -> None:
         with get_db() as db:
-            db.query(self.model).filter_by(id=item_id).update(update_data)
+            db.merge(item)
             db.commit()
 
     def bulk_add_items(self, items: List[Dict[str, Any]]) -> None:
@@ -67,3 +67,7 @@ class BaseService(InterfaceService):
             db_items = [self.model(**item) for item in items]
             db.bulk_save_objects(db_items)
             db.commit()
+
+    def get_item_by_market_hash_name(self, market_hash_name: str) -> Optional[T]:
+        with get_db() as db:
+            return db.query(self.model).filter(self.model.market_hash_name == market_hash_name).first()

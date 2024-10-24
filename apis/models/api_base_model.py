@@ -32,6 +32,7 @@ class APIClient:
     async def async_get(self, endpoint, params=None):
         url = self._build_url(endpoint, params)
         async with httpx.AsyncClient() as client:
+            print(f"Requesting {url}")
             response = await client.get(url, timeout=10)
         return self._handle_response(response)
     

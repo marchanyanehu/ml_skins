@@ -1,6 +1,6 @@
 from etl.base import ETLPipeline
 from etl.extractors.tm_item_extractor import TMItemExtractor
-from etl.transformers.item_transformer import ItemTransformer
+from etl.transformers.tm_item_transformer import ItemTransformer
 from etl.loaders.db_loader import DBLoader
 from services.base_service import BaseService
 from models.db_models import ItemFullExport
