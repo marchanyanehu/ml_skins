@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, Double, ForeignKey, BigInteger, Index
+from sqlalchemy import Column, Integer, Float, String, Double, ForeignKey, BigInteger, Index, Boolean
 from database.base_model import BaseModel
 
 
@@ -51,3 +51,86 @@ class MetaItem(BaseModel):
     __table_args__ = (
         Index('ix_meta_item_market_hash_name', 'market_hash_name', postgresql_using='hash'),
     )
+
+
+
+
+class SteamItem(BaseModel):
+    __tablename__ = 'steam_item'
+
+    market_hash_name = Column(String, primary_key=True)
+    _7d = Column(Boolean)
+    _14d = Column(Boolean)
+    _30d = Column(Boolean)
+    _90d = Column(Boolean)
+    _365d = Column(Boolean)
+
+
+class SteamItem7d(BaseModel):
+    __tablename__ = 'steam_item_7d'
+
+    market_hash_name = Column(String, ForeignKey('steam_item.market_hash_name'), primary_key=True)
+    avg_price = Column(Float) # avg as in api response
+    max_price = Column(Float) # max 
+    median_price = Column(Float) # med 
+    min_price = Column(Float) # min 
+    std = Column(Float) # std as in api response
+    volume = Column(Integer) # sales 
+
+    Index('ix_steam_item_7d_market_hash_name', 'market_hash_name', postgresql_using='hash')
+
+
+class SteamItem14d(BaseModel):
+    __tablename__ = 'steam_item_14d'
+
+    market_hash_name = Column(String, ForeignKey('steam_item.market_hash_name'), primary_key=True)
+    avg_price = Column(Float) # avg as in api response
+    max_price = Column(Float) # max 
+    median_price = Column(Float) # med 
+    min_price = Column(Float) # min 
+    std = Column(Float) # std as in api response
+    volume = Column(Integer) # sales 
+
+    Index('ix_steam_item_14d_market_hash_name', 'market_hash_name', postgresql_using='hash')
+
+
+class SteamItem30d(BaseModel):
+    __tablename__ = 'steam_item_30d'
+
+    market_hash_name = Column(String, ForeignKey('steam_item.market_hash_name'), primary_key=True)
+    avg_price = Column(Float) # avg as in api response
+    max_price = Column(Float) # max 
+    median_price = Column(Float) # med 
+    min_price = Column(Float) # min 
+    std = Column(Float) # std as in api response
+    volume = Column(Integer) # sales 
+
+    Index('ix_steam_item_30d_market_hash_name', 'market_hash_name', postgresql_using='hash')
+
+
+class SteamItem90d(BaseModel):
+    __tablename__ = 'steam_item_90d'
+
+    market_hash_name = Column(String, ForeignKey('steam_item.market_hash_name'), primary_key=True)
+    avg_price = Column(Float) # avg as in api response
+    max_price = Column(Float) # max 
+    median_price = Column(Float) # med 
+    min_price = Column(Float) # min 
+    std = Column(Float) # std as in api response
+    volume = Column(Integer) # sales 
+
+    Index('ix_steam_item_90d_market_hash_name', 'market_hash_name', postgresql_using='hash')
+
+
+class SteamItem365d(BaseModel):
+    __tablename__ = 'steam_item_365d'
+
+    market_hash_name = Column(String, ForeignKey('steam_item.market_hash_name'), primary_key=True)
+    avg_price = Column(Float) # avg as in api response
+    max_price = Column(Float) # max 
+    median_price = Column(Float) # med 
+    min_price = Column(Float) # min 
+    std = Column(Float) # std as in api response
+    volume = Column(Integer) # sales 
+
+    Index('ix_steam_item_365d_market_hash_name', 'market_hash_name', postgresql_using='hash')

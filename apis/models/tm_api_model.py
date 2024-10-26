@@ -1,7 +1,7 @@
 from apis.models.api_base_model import APIClient
 from typing import Literal, Optional
 
-class TmApiV1Client(APIClient):
+class TmApiV1Model(APIClient):
     def __init__(self, api_key=None):
         super().__init__(base_url="https://market.csgo.com/api", api_key=api_key)
 
@@ -12,7 +12,7 @@ class TmApiV1Client(APIClient):
         return await self.async_get(f"full-export/{json_id}")
 
 
-class TmApiV2Client(APIClient):
+class TmApiV2Model(APIClient):
     def __init__(self, api_key=None):
         super().__init__(base_url="https://market.csgo.com/api/v2", api_key=api_key)
     

@@ -9,6 +9,7 @@ DB_PASSWORD = getenv("DB_PASSWORD", "postgres")
 
 DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-API_KEY = getenv("API_KEY", "your_api_key_here")
+CTM_API_KEY = getenv("CTM_API_KEY", "your_api_key_here")
 
+HEXAONE_API_KEY = getenv("HEXAONE_API_KEY", "your_api_key_here")
 

@@ -5,6 +5,8 @@ from etl.pipelines.meta_item_pipeline import MetaItemPipeline
 from utils.misc.export_as_csv import export_as_csv
 from database.get_connection import get_db
 from models.db_models import SimpleItem, ItemFullExport, Sticker, MetaItem
+from apis.clients.hexaone_api_client import hexaone_client
+
 async def run_etl():
     field_mappings = {
         'price': 'price',
@@ -58,13 +60,14 @@ async def run_meta_item_etl():
 
 
 def export_tables():
-
     with get_db() as session:
         export_as_csv(Sticker, session)
         export_as_csv(MetaItem, session)
         export_as_csv(SimpleItem, session)
         export_as_csv(ItemFullExport, session)
 
+
 if __name__ == "__main__":
-    export_tables()
+    res = hexaone_client.get_account_info()
+    print(res)
 
