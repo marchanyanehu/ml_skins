@@ -15,7 +15,7 @@ class BaseService(InterfaceService):
 
     def _query_builder(self, db: Session, filters: Optional[Dict[str, Any]] = None, 
                     sort_by: Optional[str] = None, 
-                    sort_order: Optional[str] = 'desc', 
+                    sort_order: Optional[str] = None, 
                     limit: Optional[int] = None):
         query = db.query(self.model)
         

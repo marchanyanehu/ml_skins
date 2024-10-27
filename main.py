@@ -4,8 +4,9 @@ from etl.pipelines.sticker_pipeline import StickerPipeline
 from etl.pipelines.meta_item_pipeline import MetaItemPipeline
 from utils.misc.export_as_csv import export_as_csv
 from database.get_connection import get_db
-from models.db_models import SimpleItem, ItemFullExport, Sticker, MetaItem
+from models.db_models import SimpleItem, ItemFullExport, Sticker, MetaItem, SteamItem, SteamItem7d, SteamItem14d, SteamItem30d, SteamItem90d, SteamItem365d
 from apis.clients.hexaone_api_client import hexaone_client
+from etl.pipelines.steam_item_pipeline import SteamItemPipeline
 
 async def run_etl():
     field_mappings = {
@@ -58,16 +59,22 @@ async def run_meta_item_etl():
     pipeline = MetaItemPipeline(field_mappings)
     await pipeline.run()
 
+async def run_steam_item_etl():
+    pipeline = SteamItemPipeline()
+    await pipeline.run()
 
 def export_tables():
+    steam_models = [SteamItem, SteamItem7d, SteamItem14d, SteamItem30d, SteamItem90d, SteamItem365d]
+    ctm_models = [SimpleItem, ItemFullExport, Sticker, MetaItem]
+    temp_model = [Sticker]
     with get_db() as session:
-        export_as_csv(Sticker, session)
-        export_as_csv(MetaItem, session)
-        export_as_csv(SimpleItem, session)
-        export_as_csv(ItemFullExport, session)
+        for model in temp_model:
+            export_as_csv(model, session)
+
+
+
 
 
 if __name__ == "__main__":
-    res = hexaone_client.get_account_info()
-    print(res)
+    export_tables()
 
