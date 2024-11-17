@@ -5,7 +5,9 @@ from database.base_model import BaseModel
 from database.get_connection import get_db
 
 from sqlalchemy.orm import Session
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, update, select, func
+from sqlalchemy.sql import text
+
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -71,3 +73,20 @@ class BaseService(InterfaceService):
     def get_item_by_market_hash_name(self, market_hash_name: str) -> Optional[T]:
         with get_db() as db:
             return db.query(self.model).filter(self.model.market_hash_name == market_hash_name).first()
+        
+
+    def truncate_table(self) -> None:
+        with get_db() as db:
+            db.execute(text(f'TRUNCATE TABLE {self.model.__tablename__} RESTART IDENTITY CASCADE'))
+            db.commit()
+
+    def update_avg_price_item_full_export(self):
+        from models.db_models import SteamItem7d
+        if self.model.__name__ != 'ItemFullExport':
+            return None
+        with get_db() as db:
+            subquery = select(func.coalesce(SteamItem7d.avg_price, 0)).where(SteamItem7d.market_hash_name == self.model.market_hash_name).scalar_subquery()
+            stmt = update(self.model).where(self.model.market_hash_name.is_(None)).values(avg_price=subquery)
+            db.execute(stmt)
+            db.commit()
+

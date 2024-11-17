@@ -5,9 +5,13 @@ from etl.loaders.simple_item_loader import SimpleItemLoader
 from services.base_service import BaseService
 from models.db_models import SimpleItem
 from typing import Dict
+from services.base_service import BaseService
+
+steam_service = BaseService(model=SimpleItem)
 
 class SimpleItemPipeline(ETLPipeline):
     def __init__(self, field_mappings: Dict[str, str]):
+        steam_service.truncate_table()
         self.extractor = SimpleItemExtractor()
         self.transformer = SimpleItemTransformer(field_mappings)
         self.loader = SimpleItemLoader(BaseService(SimpleItem))

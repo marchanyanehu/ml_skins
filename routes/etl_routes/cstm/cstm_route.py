@@ -1,11 +1,17 @@
 from etl.pipelines import ItemPipeline, SimpleItemPipeline, StickerPipeline, MetaItemPipeline
 from fastapi import APIRouter
+from services.base_service import BaseService
+from models.db_models import ItemFullExport
 
 router = APIRouter(prefix="/etl/cstm", tags=["ETL"])
 
+service_item_full_export = BaseService(model=ItemFullExport)
+truncate_table = service_item_full_export.truncate_table
+update_avg_price_item_full_export = service_item_full_export.update_avg_price_item_full_export
 
 @router.get("/run_etl_full_item/")
 async def run_etl_full_item():
+    truncate_table() 
     field_mappings = {
         'price': 'price',
         'id': 'id',
@@ -27,6 +33,7 @@ async def run_etl_full_item():
     }
     pipeline = ItemPipeline(field_mappings, batch_size=1000)
     await pipeline.run()
+    update_avg_price_item_full_export()
     return {"message": "Full Item ETL is running"}
 
 @router.get("/run_etl_simple_item/")
