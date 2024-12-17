@@ -1,4 +1,4 @@
-from models.db_models import SimpleItem, ItemFullExport, Sticker, MetaItem, SteamItem, SteamItem7d, SteamItem14d, SteamItem30d, SteamItem90d, SteamItem365d
+from models.db_models import SimpleItem, ItemFullExport, Sticker, MetaItem, SteamItem, SteamItem7d, SteamItem14d, SteamItem30d, SteamItem90d, SteamItem365d, SteamItemRarity
 from database.get_connection import get_db
 from utils.misc.export_as_csv import export_as_csv
 from fastapi import APIRouter
@@ -6,7 +6,7 @@ from typing import Literal
 
 STEAM_MODELS = [SteamItem, SteamItem7d, SteamItem14d, SteamItem30d, SteamItem90d, SteamItem365d]
 CTM_MODELS = [SimpleItem, ItemFullExport, Sticker, MetaItem]
-TEMP_MODELS = [ItemFullExport]
+TEMP_MODELS = [SteamItemRarity]
 
 router = APIRouter(prefix="/export", tags=["Export"])
 

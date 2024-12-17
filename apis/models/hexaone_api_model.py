@@ -39,3 +39,6 @@ class HexaOneApiModel(APIClient):
 
     def get_market_prices(self, game_id: str = '730'):
         return self.async_get(f"market/prices/{game_id}", headers=self._build_auth_header(self.api_key))
+    
+    def get_market_items(self, game_id: str = '730'):
+        return self.async_get(f"market/items/{game_id}", headers=self._build_auth_header(self.api_key))

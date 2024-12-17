@@ -134,3 +134,14 @@ class SteamItem365d(BaseModel):
     volume = Column(Integer) # sales 
 
     Index('ix_steam_item_365d_market_hash_name', 'market_hash_name', postgresql_using='hash')
+
+
+
+class SteamItemRarity(BaseModel):
+    __tablename__ = 'steam_item_rarity'
+
+    market_hash_name = Column(String, primary_key=True)
+    rarity = Column(String, nullable=True)
+
+    Index('ix_steam_item_rarity_market_hash_name', 'market_hash_name', postgresql_using='hash')
+
